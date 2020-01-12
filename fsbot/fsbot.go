@@ -51,7 +51,7 @@ func (bot *FSBot) ProcessCommand(session disgord.Session, evt *disgord.MessageCr
 	for _, cmd := range bot.Handler.Commands {
 		for _, alias := range cmd.Aliases {
 			if alias == msgContent {
-				cmd.Run(ctx)
+				go cmd.Run(ctx)
 			}
 		}
 	}
