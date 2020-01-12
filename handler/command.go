@@ -14,16 +14,6 @@ type Command struct {
 	Run func(ctx CommandContext)
 }
 
-type CommandContext struct {
-	Prefix string
-	Args []string
-	Command string
-	Message *disgord.Message
-	Config *lib.Configuration
-	Client *disgord.Client
-	// Database, when it exists
-}
-
 func NewCommand(name string, aliases ...string) *Command {
 	return &Command{Name: name, Aliases: aliases}
 }
