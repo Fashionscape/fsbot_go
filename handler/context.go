@@ -85,3 +85,11 @@ func (ctx *CommandContext) GetMentionedChannels() (channels []*disgord.Channel) 
 	}
 	return
 }
+
+func (ctx *CommandContext) IsPrivateChannel() bool {
+	return ctx.Message.IsDirectMessage()
+}
+
+func (ctx *CommandContext) IsGuildTextChannel() bool {
+	return ctx.GetChannel().Type == 0
+}
