@@ -28,6 +28,13 @@ func (ctx *CommandContext) ReplyEmbed(embed *disgord.Embed) (msg *disgord.Messag
 	return
 }
 
+func (ctx *CommandContext) GetAuthor() (user *disgord.User) {
+	member, err := ctx.GetGuild().Member(ctx.Message.Author.ID)
+	lib.Check(err)
+	user = member.User
+	return
+}
+
 func (ctx *CommandContext) GetAuthorID() (id string) {
 	id = ctx.Message.Author.ID.String()
 	return
