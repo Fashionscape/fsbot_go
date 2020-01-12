@@ -1,19 +1,17 @@
 package modules
 
 import (
-	"context"
 	"github.com/salmonllama/fsbot_go/handler"
 )
 
 func ModuleGeneral() *handler.Module {
-	module := handler.InitModule("General", 0).AddCommands(ping(), test())
-	return module
+	return handler.InitModule("General", 0).AddCommands(ping(), test())
 }
 
 func ping() *handler.Command {
 	PingCommand := handler.NewCommand("Ping", "ping")
 	PingCommand.SetOnAction(func(ctx handler.CommandContext) {
-		ctx.Message.Reply(context.Background(), ctx.Client, "boop")
+		go ctx.ReplyText("Pong!")
 	})
 
 	return PingCommand
@@ -22,7 +20,7 @@ func ping() *handler.Command {
 func test() *handler.Command {
 	TestCommand := handler.NewCommand("Test", "test", "t")
 	TestCommand.SetOnAction(func(ctx handler.CommandContext) {
-		ctx.Message.Reply(context.Background(), ctx.Client, "test")
+		go ctx.ReplyText("Test confirmed")
 	})
 
 	return TestCommand
