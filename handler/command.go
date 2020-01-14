@@ -2,16 +2,15 @@ package handler
 
 import (
 	"github.com/andersfylling/disgord"
-	"github.com/salmonllama/fsbot_go/lib"
 )
 
 type Command struct {
-	Name string
+	Name        string
 	Description string
-	Help string
-	Aliases []string
+	Help        string
+	Aliases     []string
 	Permissions []disgord.PermissionBit
-	Run func(ctx CommandContext)
+	Run         func(ctx CommandContext)
 }
 
 func NewCommand(name string, aliases ...string) *Command {

@@ -6,19 +6,19 @@ import (
 )
 
 type EmbedBuilder struct {
-	Title string
-	Type string
+	Title       string
+	Type        string
 	Description string
-	URL string
-	Timestamp time.Time
-	Color int
-	Footer *disgord.EmbedFooter
-	Image *disgord.EmbedImage
-	Thumbnail *disgord.EmbedThumbnail
-	Video *disgord.EmbedVideo
-	Provider *disgord.EmbedProvider
-	Author *disgord.EmbedAuthor
-	Fields []*disgord.EmbedField
+	URL         string
+	Timestamp   time.Time
+	Color       int
+	Footer      *disgord.EmbedFooter
+	Image       *disgord.EmbedImage
+	Thumbnail   *disgord.EmbedThumbnail
+	Video       *disgord.EmbedVideo
+	Provider    *disgord.EmbedProvider
+	Author      *disgord.EmbedAuthor
+	Fields      []*disgord.EmbedField
 }
 
 func NewRichEmbed(title string) *EmbedBuilder {
@@ -28,8 +28,8 @@ func NewRichEmbed(title string) *EmbedBuilder {
 
 func (bldr *EmbedBuilder) SetFooter(text string) *EmbedBuilder {
 	footer := disgord.EmbedFooter{
-		Lockable:     disgord.Lockable{},
-		Text:         text,
+		Lockable: disgord.Lockable{},
+		Text:     text,
 	}
 	bldr.Footer = &footer
 	return bldr

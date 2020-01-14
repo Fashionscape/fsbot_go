@@ -1,9 +1,9 @@
 package handler
 
 type Module struct {
-	Name string
+	Name     string
 	Commands []*Command
-	Access AccessType // 0 is all, 1 is none, 2 is home
+	Access   AccessType // 0 is all, 1 is none, 2 is home
 }
 
 type AccessType int

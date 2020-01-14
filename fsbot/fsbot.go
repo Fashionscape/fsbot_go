@@ -11,8 +11,8 @@ import (
 )
 
 type FSBot struct {
-	Client *disgord.Client
-	Config lib.Configuration
+	Client  *disgord.Client
+	Config  lib.Configuration
 	Handler *handler.Handler
 	// TODO: Add Database and Handler to the FSBot struct
 }
@@ -38,12 +38,12 @@ func (bot *FSBot) ProcessCommand(session disgord.Session, evt *disgord.MessageCr
 	}
 
 	ctx := handler.CommandContext{
-		Prefix: bot.Config.DefaultPrefix,
+		Prefix:  bot.Config.DefaultPrefix,
 		Args:    nil,
 		Command: removePrefix(msg.Content),
 		Message: msg,
-		Client: bot.Client,
-		Config: &bot.Config,
+		Client:  bot.Client,
+		Config:  &bot.Config,
 	}
 
 	// Check if it's an existing command
@@ -87,8 +87,8 @@ func New(config lib.Configuration) *FSBot {
 	cmd := handler.Handler{}
 
 	fsbot := &FSBot{
-		Client: client,
-		Config: config,
+		Client:  client,
+		Config:  config,
 		Handler: &cmd,
 	}
 

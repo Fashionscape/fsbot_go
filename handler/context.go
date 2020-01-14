@@ -7,12 +7,12 @@ import (
 )
 
 type CommandContext struct {
-	Prefix string
-	Args []string
+	Prefix  string
+	Args    []string
 	Command string
 	Message *disgord.Message
-	Config *lib.Configuration
-	Client *disgord.Client
+	Config  *lib.Configuration
+	Client  *disgord.Client
 	// Database, when it exists
 }
 

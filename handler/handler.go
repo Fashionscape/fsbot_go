@@ -2,7 +2,7 @@ package handler
 
 type Handler struct {
 	Commands []*Command
-	Modules []*Module
+	Modules  []*Module
 }
 
 func (hdlr *Handler) addCommand(cmd *Command) *Command {

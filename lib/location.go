@@ -2,8 +2,8 @@ package lib
 
 import (
 	"fmt"
-	"runtime"
 	"os"
+	"runtime"
 )
 
 // GetLocalFolder gets the storage folder for fsbot
@@ -26,7 +26,7 @@ func LocGet(file string) string {
 
 		return fmt.Sprintf("%s/%s", storage, file)
 	}
-	
+
 	return file
 }
 
