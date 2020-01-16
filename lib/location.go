@@ -3,6 +3,7 @@ package lib
 import (
 	"fmt"
 	"os"
+	"path/filepath"
 	"runtime"
 )
 
@@ -28,6 +29,21 @@ func LocGet(file string) string {
 	}
 
 	return file
+}
+
+// IsImage checks if the given filename is an image format
+func IsImage(filename string) bool {
+	ext := filepath.Ext(filename)
+	switch ext {
+	case "png":
+		return true
+	case "jpg":
+		return true
+	case "jpeg":
+		return true
+	default:
+		return false
+	}
 }
 
 func fileExists(file string) bool {
