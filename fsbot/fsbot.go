@@ -57,6 +57,24 @@ func (bot *FSBot) ProcessCommand(session disgord.Session, evt *disgord.MessageCr
 	}
 }
 
+func (bot *FSBot) StoreImage(session disgord.Session, evt *disgord.MessageCreate) {
+
+}
+
+func mdlwImageFilter(evt interface{}) (ret interface{}) {
+	// Filter returns messages that contain an image attachment
+	msg := (evt.(*disgord.MessageCreate)).Message
+	if len(msg.Attachments) > 0 {
+		for _, att := range msg.Attachments {
+			if lib.IsImage(att.Filename) {
+				// return evt
+			}
+		}
+	}
+
+	return nil
+}
+
 func removePrefix(msg string) string {
 	_, i := utf8.DecodeRuneInString(msg)
 	return msg[i:]
