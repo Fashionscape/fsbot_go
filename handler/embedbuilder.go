@@ -107,7 +107,10 @@ func (bldr *EmbedBuilder) Build() *disgord.Embed {
 		URL:         bldr.URL,
 		Timestamp:   disgord.Time{},
 		Color:       bldr.Color,
-		Footer:      bldr.Footer,
+		Footer:      &disgord.EmbedFooter{
+			Lockable:     disgord.Lockable{},
+			Text:         "FSBot {version}",
+		},
 		Image:       bldr.Image,
 		Thumbnail:   bldr.Thumbnail,
 		Video:       bldr.Video,
