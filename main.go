@@ -17,7 +17,7 @@ func main() {
 func lifecycle() int {
 	bot := startup()
 	if bot != nil {
-		bot.Connect()
+		defer bot.Connect()
 	}
 	return 0
 }
