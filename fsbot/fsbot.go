@@ -22,7 +22,7 @@ func (bot *FSBot) isHomeGuild(id string) bool {
 }
 
 // Takes a message and decides if it should be treated as a command or not
-func (bot *FSBot) ProcessCommand(session disgord.Session, event *disgord.MessageCreate) {
+func (bot *FSBot) HandleCommand(session disgord.Session, event *disgord.MessageCreate) {
 	msg := event.Message
 	_, content := bot.separatePrefix(msg.Content)
 
@@ -59,7 +59,7 @@ func (bot *FSBot) ProcessCommand(session disgord.Session, event *disgord.Message
 	}
 }
 
-func (bot *FSBot) StoreImage(session disgord.Session, event *disgord.MessageCreate) {
+func (bot *FSBot) HandleImage(session disgord.Session, event *disgord.MessageCreate) {
 
 }
 
@@ -158,8 +158,8 @@ func New(config lib.Configuration) *FSBot {
 		Handler: &cmd,
 	}
 
-	client.On(disgord.EvtMessageCreate, fsbot.mdlwIsValidSource, fsbot.mdlwImageFilter, fsbot.StoreImage)
-	client.On(disgord.EvtMessageCreate, fsbot.mdlwIsValidSource, fsbot.mdlwHasPrefix, fsbot.ProcessCommand)
+	client.On(disgord.EvtMessageCreate, fsbot.mdlwIsValidSource, fsbot.mdlwImageFilter, fsbot.HandleImage)
+	client.On(disgord.EvtMessageCreate, fsbot.mdlwIsValidSource, fsbot.mdlwHasPrefix, fsbot.HandleCommand)
 
 	return fsbot
 }
