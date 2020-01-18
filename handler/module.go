@@ -3,7 +3,7 @@ package handler
 type Module struct {
 	Name     string
 	Commands []*Command
-	Access   AccessType // 0 is all, 1 is none, 2 is home
+	Access   AccessType // 0 is all, 1 is none, 2 is home, 3 is owner-only
 }
 
 type AccessType int
@@ -12,6 +12,7 @@ const (
 	All AccessType = iota
 	None
 	Home
+	Owner
 )
 
 func InitModule(name string, access AccessType) *Module {
