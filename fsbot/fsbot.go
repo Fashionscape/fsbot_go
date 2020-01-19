@@ -3,6 +3,7 @@ package fsbot
 import (
 	"context"
 	"github.com/andersfylling/disgord"
+	"github.com/salmonllama/fsbot_go/database"
 	"github.com/salmonllama/fsbot_go/handler"
 	"github.com/salmonllama/fsbot_go/lib"
 	"github.com/salmonllama/fsbot_go/modules"
@@ -14,7 +15,7 @@ type FSBot struct {
 	Client  *disgord.Client
 	Config  lib.Configuration
 	Handler *handler.Handler
-	// TODO: Add Database and Handler to the FSBot struct
+	Database *database.Database
 }
 
 func (bot *FSBot) isHomeGuild(id string) bool {
@@ -141,6 +142,7 @@ func (bot *FSBot) addModule(mdl *handler.Module) *FSBot {
 func (bot *FSBot) Connect() error {
 	err := bot.Client.StayConnectedUntilInterrupted(context.Background())
 	lib.Check(err)
+
 	return nil
 }
 
@@ -152,10 +154,19 @@ func New(config lib.Configuration) *FSBot {
 
 	cmd := handler.Handler{}
 
+	db := database.Database{
+		Host:     config.Database.Hostname,
+		Port:     config.Database.Port,
+		Name:     config.Database.Name,
+		User:     config.Database.Username,
+		Password: config.Database.Password,
+	}
+
 	fsbot := &FSBot{
 		Client:  client,
 		Config:  config,
 		Handler: &cmd,
+		Database: &db,
 	}
 
 	client.On(disgord.EvtMessageCreate, fsbot.mdlwIsValidSource, fsbot.mdlwImageFilter, fsbot.StoreImage)
