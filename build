@@ -1,0 +1,8 @@
+#!/bin/bash
+
+echo Building and running...
+mkdir out/
+go build -o out/fsbot
+wait
+./out/fsbot
+wait
