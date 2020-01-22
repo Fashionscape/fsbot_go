@@ -23,7 +23,11 @@ func InitModule(name string, access AccessType) *Module {
 	}
 }
 
-func (mdl *Module) AddCommands(cmd ...*Command) *Module {
-	mdl.Commands = append(mdl.Commands, cmd...)
+func (mdl *Module) AddCommands(cmds ...*Command) *Module {
+	for _, command := range cmds {
+		command.Module = mdl
+	}
+
+	mdl.Commands = append(mdl.Commands, cmds...)
 	return mdl
 }

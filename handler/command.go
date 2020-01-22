@@ -8,6 +8,7 @@ type Command struct {
 	Name        string
 	Description string
 	Help        string
+	Module      *Module
 	Aliases     []string
 	Permissions []disgord.PermissionBit
 	Run         func(ctx CommandContext)
