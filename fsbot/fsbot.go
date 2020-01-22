@@ -139,11 +139,9 @@ func (bot *FSBot) addModule(mdl *handler.Module) *FSBot {
 }
 
 // Connect opens the connection to discord
-func (bot *FSBot) Connect() error {
+func (bot *FSBot) Connect() {
 	err := bot.Client.StayConnectedUntilInterrupted(context.Background())
 	lib.Check(err)
-
-	return nil
 }
 
 // New creates a new instance of FSBot
