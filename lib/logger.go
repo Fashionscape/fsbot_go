@@ -3,15 +3,13 @@ package lib
 import (
 	"fmt"
 	"github.com/andersfylling/disgord"
-	"github.com/salmonllama/fsbot_go/fsbot"
-	"github.com/salmonllama/fsbot_go/handler"
 	"time"
 )
 
 type Logger struct {
 	DiscordChannel   string
 	DefaultToDiscord bool
-	Bot              *fsbot.FSBot
+	Bot              *disgord.Client
 }
 
 type LogType int // 0 is Info, 1 is Warn, 2 is Err
@@ -26,19 +24,19 @@ var (
 	base = "[" + time.Now().String() + "]"
 
 	infoString = base + " INFO: "
-	infoEmbed  = handler.EmbedBuilder{
+	infoEmbed  = EmbedBuilder{
 		Title: "LOGGER: INFO",
 		Color: 16777215,
 	}
 
 	warnString = base + " WARN: "
-	warnEmbed  = handler.EmbedBuilder{
+	warnEmbed  = EmbedBuilder{
 		Title: "LOGGER: WARN",
 		Color: 0,
 	}
 
 	errString = base + " ERR: "
-	errEmbed  = handler.EmbedBuilder{
+	errEmbed  = EmbedBuilder{
 		Title: "LOGGER: ERR",
 		Color: 0,
 	}
