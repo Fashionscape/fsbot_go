@@ -2,21 +2,16 @@ package handler
 
 import (
 	"github.com/andersfylling/disgord"
-	"time"
 )
 
 type EmbedBuilder struct {
 	Title       string
-	Type        string
 	Description string
 	URL         string
-	Timestamp   time.Time
 	Color       int
-	Footer      *disgord.EmbedFooter
 	Image       *disgord.EmbedImage
 	Thumbnail   *disgord.EmbedThumbnail
 	Video       *disgord.EmbedVideo
-	Provider    *disgord.EmbedProvider
 	Author      *disgord.EmbedAuthor
 	Fields      []*disgord.EmbedField
 }
@@ -26,12 +21,8 @@ func NewRichEmbed(title string) *EmbedBuilder {
 	return &EmbedBuilder{Title: title}
 }
 
-func (bldr *EmbedBuilder) SetFooter(text string) *EmbedBuilder {
-	footer := disgord.EmbedFooter{
-		Lockable: disgord.Lockable{},
-		Text:     text,
-	}
-	bldr.Footer = &footer
+func (bldr *EmbedBuilder) SetDescription(desc string) *EmbedBuilder {
+	bldr.Description = desc
 	return bldr
 }
 
@@ -59,16 +50,6 @@ func (bldr *EmbedBuilder) SetVideo(url string) *EmbedBuilder {
 		URL:      url,
 	}
 	bldr.Video = &video
-	return bldr
-}
-
-func (bldr *EmbedBuilder) SetProvider(name string, url string) *EmbedBuilder {
-	provider := disgord.EmbedProvider{
-		Lockable: disgord.Lockable{},
-		Name:     name,
-		URL:      url,
-	}
-	bldr.Provider = &provider
 	return bldr
 }
 
@@ -114,8 +95,12 @@ func (bldr *EmbedBuilder) Build() *disgord.Embed {
 		Image:     bldr.Image,
 		Thumbnail: bldr.Thumbnail,
 		Video:     bldr.Video,
-		Provider:  bldr.Provider,
-		Author:    bldr.Author,
-		Fields:    bldr.Fields,
+		Provider: &disgord.EmbedProvider{
+			Lockable: disgord.Lockable{},
+			Name:     "",
+			URL:      "",
+		},
+		Author: bldr.Author,
+		Fields: bldr.Fields,
 	}
 }
