@@ -12,9 +12,9 @@ import (
 )
 
 type FSBot struct {
-	Client  *disgord.Client
-	Config  lib.Configuration
-	Handler *handler.Handler
+	Client   *disgord.Client
+	Config   lib.Configuration
+	Handler  *handler.Handler
 	Database *database.Database
 }
 
@@ -161,9 +161,9 @@ func New(config lib.Configuration) *FSBot {
 	}
 
 	fsbot := &FSBot{
-		Client:  client,
-		Config:  config,
-		Handler: &cmd,
+		Client:   client,
+		Config:   config,
+		Handler:  &cmd,
 		Database: &db,
 	}
 
