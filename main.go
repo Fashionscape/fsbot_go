@@ -30,5 +30,8 @@ func startup() *fsbot.FSBot {
 	bot := fsbot.New(config)
 	bot.InitModules()
 
+	bot.Database.OpenConnection()
+	bot.Database.CreateTables()
+
 	return bot
 }
