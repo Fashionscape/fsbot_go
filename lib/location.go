@@ -2,33 +2,45 @@ package lib
 
 import (
 	"fmt"
+	"io/ioutil"
 	"os"
 	"path/filepath"
-	"runtime"
 )
 
 // GetLocalFolder gets the storage folder for fsbot
 func GetLocalFolder() string {
-	if runtime.GOOS == "darwin" {
-		return fmt.Sprintf("%s/.fsbot", os.Getenv("HOME"))
+	folderName := fmt.Sprintf("%s/.fsbot", os.Getenv("HOME"))
+	if _, err := os.Stat(folderName); os.IsNotExist(err) {
+		err := os.Mkdir(fmt.Sprintf("%s/.fsbot", os.Getenv("HOME")), 0777)
+		Check(err)
 	}
 
-	return ""
+	return folderName
 }
 
 // LocGet returns a file within the storage folder
 func LocGet(file string) string {
 	storage := GetLocalFolder()
+	fileName := fmt.Sprintf("%s/%s", storage, file)
 
 	if storage != "" {
-		if fileExists(file) {
-			return file
+		if fileExists(fileName) {
+			return fileName
+		} else {
+			err := ioutil.WriteFile(fileName, GetExampleConfig(), 0777)
+			Check(err)
 		}
-
-		return fmt.Sprintf("%s/%s", storage, file)
+		return fileName
 	}
 
+	fmt.Println(fileName)
 	return file
+}
+
+func GetExampleConfig() []byte {
+	cont, err := ioutil.ReadFile("config.example.json")
+	Check(err)
+	return cont
 }
 
 // IsImage checks if the given filename is an image format
