@@ -9,7 +9,7 @@ import (
 type Logger struct {
 	DiscordChannel   string
 	DefaultToDiscord bool
-	Bot              *disgord.Client
+	Client             *disgord.Client
 }
 
 type LogType int // 0 is Info, 1 is Warn, 2 is Err
