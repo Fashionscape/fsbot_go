@@ -22,8 +22,8 @@ func (bot *FSBot) isHomeGuild(id string) bool {
 	return bot.Config.HomeGuild == id
 }
 
-// Takes a message and decides if it should be treated as a command or not
-func (bot *FSBot) HandleCommand(session disgord.Session, event *disgord.MessageCreate) {
+// handleCommand takes and processes commands. Accounts for permissions and AccessType levels
+func (bot *FSBot) handleCommand(session disgord.Session, event *disgord.MessageCreate) {
 	msg := event.Message
 	_, content := bot.separatePrefix(msg.Content)
 
@@ -60,10 +60,13 @@ func (bot *FSBot) HandleCommand(session disgord.Session, event *disgord.MessageC
 	}
 }
 
-func (bot *FSBot) HandleImage(session disgord.Session, event *disgord.MessageCreate) {
+// handleImage takes a message with an image and stores the image in the proper database
+func (bot *FSBot) handleImage(session disgord.Session, event *disgord.MessageCreate) {
 
 }
 
+// TODO: New middleware to check for gallery-channels
+// mdlwImageFilter checks if the message contains image attachments
 func (bot *FSBot) mdlwImageFilter(event interface{}) interface{} {
 	// Filter returns messages that contain an image attachment
 	msg := (event.(*disgord.MessageCreate)).Message
@@ -74,10 +77,10 @@ func (bot *FSBot) mdlwImageFilter(event interface{}) interface{} {
 			}
 		}
 	}
-
 	return nil
 }
 
+// mdlwHasPrefix checks that the message contains either the default or a configured prefix
 func (bot *FSBot) mdlwHasPrefix(event interface{}) interface{} {
 	// Filter returns messages that begin with a prefix
 	msg := (event.(*disgord.MessageCreate)).Message
@@ -87,6 +90,7 @@ func (bot *FSBot) mdlwHasPrefix(event interface{}) interface{} {
 	return nil
 }
 
+// mdlwIsValidSource checks that the message author is not a bot, and not blacklisted
 func (bot *FSBot) mdlwIsValidSource(event interface{}) interface{} {
 	// Filter blocks bots and blacklisted users and guilds
 	msg := (event.(*disgord.MessageCreate)).Message
@@ -167,8 +171,8 @@ func New(config lib.Configuration) *FSBot {
 		Database: &db,
 	}
 
-	client.On(disgord.EvtMessageCreate, fsbot.mdlwIsValidSource, fsbot.mdlwImageFilter, fsbot.HandleImage)
-	client.On(disgord.EvtMessageCreate, fsbot.mdlwIsValidSource, fsbot.mdlwHasPrefix, fsbot.HandleCommand)
+	client.On(disgord.EvtMessageCreate, fsbot.mdlwIsValidSource, fsbot.mdlwImageFilter, fsbot.handleImage)
+	client.On(disgord.EvtMessageCreate, fsbot.mdlwIsValidSource, fsbot.mdlwHasPrefix, fsbot.handleCommand)
 
 	return fsbot
 }
