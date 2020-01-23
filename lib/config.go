@@ -12,6 +12,7 @@ type Configuration struct {
 	Token         string `json:"token"`
 	HomeGuild     string `json:"home_guild"`
 	LogChannel    string `json:"log_channel"`
+	OutfitLogChannel string `json:"outfit_log"`
 	ReportChannel string `json:"report_channel"`
 	ReportLog     string `json:"report_log"`
 	OwnerID       string `json:"owner_id"`
