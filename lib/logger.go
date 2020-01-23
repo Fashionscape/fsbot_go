@@ -1,6 +1,7 @@
 package lib
 
 import (
+	"context"
 	"fmt"
 	"github.com/andersfylling/disgord"
 	"time"
@@ -9,7 +10,7 @@ import (
 type Logger struct {
 	DiscordChannel   string
 	DefaultToDiscord bool
-	Client             *disgord.Client
+	Client           *disgord.Client
 }
 
 type LogType int // 0 is Info, 1 is Warn, 2 is Err
@@ -47,7 +48,20 @@ func (log *Logger) logToConsole(content string) {
 }
 
 func (log *Logger) logToDiscord(content *disgord.Embed) {
+	sf := disgord.ParseSnowflakeString(log.DiscordChannel)
+	channel, err := log.Client.GetChannel(context.Background(), sf)
+	if err != nil {
+		log.logToConsole(err.Error())
+		panic(err)
+	}
+	msg := &disgord.Message{
+		Embeds: []*disgord.Embed{content},
+	}
 
+	_, err = channel.SendMsg(context.Background(), log.Client, msg)
+	if err != nil {
+		log.logToConsole(err.Error())
+	}
 }
 
 func (log *Logger) handleLogging(content string, logType LogType) {
