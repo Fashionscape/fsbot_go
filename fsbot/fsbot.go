@@ -16,6 +16,7 @@ type FSBot struct {
 	Config   lib.Configuration
 	Handler  *handler.Handler
 	Database *database.Database
+	Logger   *lib.Logger
 }
 
 func (bot *FSBot) isHomeGuild(id string) bool {
@@ -164,11 +165,18 @@ func New(config lib.Configuration) *FSBot {
 		Password: config.Database.Password,
 	}
 
+	logger := lib.Logger{
+		DiscordChannel:   config.LogChannel,
+		DefaultToDiscord: true,
+		Client:           client,
+	}
+
 	fsbot := &FSBot{
 		Client:   client,
 		Config:   config,
 		Handler:  &cmd,
 		Database: &db,
+		Logger:   &logger,
 	}
 
 	client.On(disgord.EvtMessageCreate, fsbot.mdlwIsValidSource, fsbot.mdlwImageFilter, fsbot.handleImage)
