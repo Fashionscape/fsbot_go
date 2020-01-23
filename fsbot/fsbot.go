@@ -8,7 +8,6 @@ import (
 	"github.com/salmonllama/fsbot_go/lib"
 	"github.com/salmonllama/fsbot_go/modules"
 	"strings"
-	"unicode/utf8"
 )
 
 type FSBot struct {
@@ -28,18 +27,6 @@ func (bot *FSBot) handleCommand(session disgord.Session, event *disgord.MessageC
 	msg := event.Message
 	_, content := bot.separatePrefix(msg.Content)
 
-	// Ignore bot users
-	if msg.Author.Bot {
-		return
-	}
-
-	// Check that it's actually a command
-	if len(msg.Content) == 1 {
-		return
-	}
-	if !strings.HasPrefix(msg.Content, bot.Config.DefaultPrefix) {
-		return
-	}
 
 	// Populate the command's context
 	ctx := handler.CommandContext{
@@ -106,9 +93,21 @@ func (bot *FSBot) mdlwIsValidSource(event interface{}) interface{} {
 	return event
 }
 
-func (bot *FSBot) separatePrefix(msg string) (rune, string) {
-	r, i := utf8.DecodeRuneInString(msg)
-	return r, msg[i:]
+func (bot *FSBot) mdlwIsCommand(event interface{}) interface{} {
+	evt := event.(*disgord.MessageCreate)
+	msg := evt.Message
+
+}
+
+func trimPrefix(s string, n int) (string, string) {
+	m := 0
+	for i := range s {
+		if m >= n {
+			return s[i:], s[:i]
+		}
+		m++
+	}
+	return s[:n], ""
 }
 
 func (bot *FSBot) hasPermission(member *disgord.Member, command *handler.Command) bool {
