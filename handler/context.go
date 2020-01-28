@@ -13,6 +13,7 @@ type CommandContext struct {
 	Message *disgord.Message
 	Config  *lib.Configuration
 	Client  *disgord.Client
+	Logger  *lib.Logger
 	// Database, when it exists
 }
 
