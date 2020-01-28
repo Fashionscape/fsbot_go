@@ -39,3 +39,14 @@ func (hdlr *Handler) GetModuleMap() map[string]*Module {
 
 	return mdlMap
 }
+
+func (hdlr *Handler) IsAlias(call string) (bool, *Command) {
+	for _, cmd := range hdlr.Commands {
+		for _, alias := range cmd.Aliases {
+			if call == alias {
+				return true, cmd
+			}
+		}
+	}
+	return false, nil
+}
