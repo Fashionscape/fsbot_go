@@ -7,6 +7,7 @@
     "report_log": "",
     "owner_id": "",
     "default_prefix": "",
+    "dev_prefix": "",
     "imgur": {
         "client_id": "",
         "bearer_token": ""

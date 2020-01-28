@@ -17,6 +17,7 @@ type Configuration struct {
 	ReportLog        string `json:"report_log"`
 	OwnerID          string `json:"owner_id"`
 	DefaultPrefix    string `json:"default_prefix"`
+	DevPrefix        string `json:"dev_prefix"`
 	Imgur            struct {
 		ClientID    string `json:"client_id"`
 		BearerToken string `json:"bearer_token"`
