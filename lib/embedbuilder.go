@@ -74,11 +74,6 @@ func (bldr *EmbedBuilder) AddField(name string, value string, inline bool) *Embe
 	return bldr
 }
 
-func (bldr *EmbedBuilder) AddFields(fields ...*disgord.EmbedField) *EmbedBuilder {
-	bldr.Fields = fields
-	return bldr
-}
-
 func (bldr *EmbedBuilder) Build() *disgord.Embed {
 	return &disgord.Embed{
 		Lockable:    disgord.Lockable{},
