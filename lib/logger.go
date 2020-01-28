@@ -27,19 +27,19 @@ var (
 	infoString = base + " INFO: "
 	infoEmbed  = EmbedBuilder{
 		Title: "LOGGER: INFO",
-		Color: 16777215,
+		Color: 0xFF8000,
 	}
 
 	warnString = base + " WARN: "
 	warnEmbed  = EmbedBuilder{
 		Title: "LOGGER: WARN",
-		Color: 0,
+		Color: 0xFFFF00,
 	}
 
 	errString = base + " ERR: "
 	errEmbed  = EmbedBuilder{
 		Title: "LOGGER: ERR",
-		Color: 0,
+		Color: 0xFF0100,
 	}
 )
 
@@ -69,7 +69,7 @@ func (log *Logger) handleLogging(content string, logType LogType) {
 	case Info:
 		if log.DefaultToDiscord {
 			embed := infoEmbed.SetDescription(content)
-			log.logToDiscord(embed.Build())
+			go log.logToDiscord(embed.Build())
 		} else {
 			s := infoString + content
 			log.logToConsole(s)
@@ -77,7 +77,7 @@ func (log *Logger) handleLogging(content string, logType LogType) {
 	case Warn:
 		if log.DefaultToDiscord {
 			embed := warnEmbed.SetDescription(content)
-			log.logToDiscord(embed.Build())
+			go log.logToDiscord(embed.Build())
 		} else {
 			s := warnString + content
 			log.logToConsole(s)
@@ -85,7 +85,7 @@ func (log *Logger) handleLogging(content string, logType LogType) {
 	case Err:
 		if log.DefaultToDiscord {
 			embed := errEmbed.SetDescription(content)
-			log.logToDiscord(embed.Build())
+			go log.logToDiscord(embed.Build())
 		} else {
 			s := errString + content
 			log.logToConsole(s)
@@ -94,13 +94,13 @@ func (log *Logger) handleLogging(content string, logType LogType) {
 }
 
 func (log *Logger) Info(content string) {
-
+	log.handleLogging(content, Info)
 }
 
 func (log *Logger) Warn(content string) {
-
+	log.handleLogging(content, Warn)
 }
 
 func (log *Logger) Err(content string) {
-
+	log.handleLogging(content, Err)
 }
