@@ -10,7 +10,7 @@ type Command struct {
 	Help        string
 	Module      *Module
 	Aliases     []string
-	Permissions disgord.PermissionBit
+	Permission disgord.PermissionBit
 	Run         func(ctx CommandContext)
 }
 
@@ -29,7 +29,7 @@ func (cmd *Command) SetHelp(help string) *Command {
 }
 
 func (cmd *Command) SetPermission(perms disgord.PermissionBit) *Command {
-	cmd.Permissions = perms
+	cmd.Permission = perms
 	return cmd
 }
 
