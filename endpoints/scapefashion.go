@@ -60,18 +60,18 @@ type SFRequestRS3 struct {
 type SFRequestOSRS struct {
 	Slot  SFSlot
 	Param string
-	Link string
-} // TODO: Need an interface for URL generation based on Request. Maybe add game version as a struct field?
+	Link  string
+}
 
-func (req *SFRequestRS3) BuildURI() (*url.URL, error) {
-	// Find out if the param is an item or a color
+func (req *SFRequestRS3) BuildURI() *url.URL {
 	var uri string
 	if strings.HasPrefix(req.Param, "#") {
 		uri = RS3Request + "/colors/" + url.QueryEscape(req.Param)
 		req.Link = RS3Link + "/colors/" + url.QueryEscape(req.Param)
 	} else {
-		uri = RS3Request + "/items/" + url.QueryEscape(req.Param)
-		req.Link = RS3Link + "/items/" + url.QueryEscape(req.Param)
+		p := url.URL{Path: req.Param}
+		uri = OSRSRequest + "/items/" + p.String()
+		req.Link = OSRSLink + "/items/" + p.String()
 	}
 
 	params := url.Values{}
@@ -79,18 +79,19 @@ func (req *SFRequestRS3) BuildURI() (*url.URL, error) {
 		params.Add("slot", string(req.Slot))
 	}
 
-	return url.Parse(uri + "?" + params.Encode())
+	ret, _ := url.Parse(uri + "?" + params.Encode())
+	return ret
 }
 
-func (req *SFRequestOSRS) BuildURI() (*url.URL, error) {
-	// Find out if the param is an item or a color
+func (req *SFRequestOSRS) BuildURI() *url.URL {
 	var uri string
 	if strings.HasPrefix(req.Param, "#") {
 		uri = OSRSRequest + "/colors/" + url.QueryEscape(req.Param)
 		req.Link = OSRSLink + "/colors/" + url.QueryEscape(req.Param)
 	} else {
-		uri = OSRSRequest + "/items/" + url.QueryEscape(req.Param)
-		req.Link = OSRSLink + "/items/" + url.QueryEscape(req.Param)
+		p := url.URL{Path: req.Param}
+		uri = OSRSRequest + "/items/" + p.String()
+		req.Link = OSRSLink + "/items/" + p.String()
 	}
 
 	params := url.Values{}
@@ -98,7 +99,8 @@ func (req *SFRequestOSRS) BuildURI() (*url.URL, error) {
 		params.Add("slot", string(req.Slot))
 	}
 
-	return url.Parse(uri + "?" + params.Encode())
+	ret, _ := url.Parse(uri + "?" + params.Encode())
+	return ret
 }
 
 type SFResponse struct {
@@ -106,14 +108,8 @@ type SFResponse struct {
 	Link  string
 }
 
-// Color search -> WORKING
-// Item search -> NOT WORKING // TODO
-// Slot parameters -> NOT WORKING // TODO
-func SFSearch(req SFRequestOSRS) (SFResponse, error) {
-	uri, err := req.BuildURI()
-	if err != nil {
-		return SFResponse{}, err
-	}
+func SFSearch(req Requester) (SFResponse, error) {
+	uri := req.BuildURI()
 
 	fmt.Println(uri.String())
 
@@ -122,8 +118,12 @@ func SFSearch(req SFRequestOSRS) (SFResponse, error) {
 		return SFResponse{}, err
 	}
 
-	items := SFResponse{
-		Link: req.Link,
+	var items SFResponse
+	switch r := req.(type) {
+	case *SFRequestRS3:
+		items.Link = r.Link
+	case *SFRequestOSRS:
+		items.Link = r.Link
 	}
 
 	err = json.Unmarshal(body, &items)
